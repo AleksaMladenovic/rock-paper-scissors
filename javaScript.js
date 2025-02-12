@@ -61,29 +61,46 @@ function getTheRoundWinner(firstSimbol, seccondSimbol){
 }
 
 //logic for a single round
-//  function playRound with arguments: humanChoice and computerChoice
+//  function playRound with arguments
 //  call getHumanChoice
 //  call getComputerChoice 
-//  call getTheWinner with humanChoice and computerChoice
+//  call getTheRoundWinner with humanChoice and computerChoice
 //  if return is 0
 //      then console.log You win!
 //      console.log humanChoice beats computerChoice
-//      increment humanScore
+//      return 0
 //  else if return is 1
 //      console.log You lose! 
 //      console.log computerChoice beats humanChoice
-//      increment computerScore
+//      return 1
 //  else
-//      console.log You and computer are equal
-//      call again playRound 
-//  if is is equal => call single round again
-//
+//      console.log You and computer have same simbols
+//      return 2;
+function playRound(){//returns 0 if user win
+                    //         1 if computer win
+                    //         2 if they are equal
+    humanChoice = getHumanChoice();
+    computerChoice = getComputerChoice();
+    roundWinner = getTheRoundWinner(humanChoice,computerChoice);
+    console.log(`Your ${humanChoice} VS Computers ${computerChoice}`);
+    switch(roundWinner){
+        case 2:
+            console.log("You and the computer had the same simbols!");
+            break;
+        case 0:
+            console.log("Congratulations!You win!");
+            break;
+        case 1:
+            console.log("Unfortunately, you lose!");
+            break;
+    }
+    return roundWinner;
+}
 
 //logic for the entire game
 //  function called playGame
 //  inside this function will be declared variables
 //  humanScore and computerScore
-//  function for single round playRound
 //  
 //  call the single round function 5 times or until
 //      any player reach the 3 wins
@@ -92,3 +109,4 @@ function getTheRoundWinner(firstSimbol, seccondSimbol){
 //  check if user wants to play again
 //  if he want to play again clear console and call playGame
 //  if he dont want to play again just clear console!
+
