@@ -23,6 +23,16 @@ function getComputerChoice(){
 //  if it is => return that lowCaseUserTyped
 //  if not try again by calling function!
 
+function getHumanChoice(){
+    let humanChoice = prompt("Choose your simbol!\nRock, Paper or Scissors!");
+    if(humanChoice.toLowerCase()==="rock"
+        ||humanChoice.toLocaleLowerCase()==="paper"
+        ||humanChoice.toLocaleLowerCase()==="scissors")
+        return humanChoice.toLowerCase();
+    console.log("Spell right!");
+    return getHumanChoice();
+}
+
 //humanScore variable - for the humans wins 
 //  initialValue = 0
 //  it will icrease by the human winning
