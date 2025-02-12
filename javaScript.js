@@ -42,13 +42,23 @@ function getHumanChoice(){
 // it will increase by the computer winning
 
 //function for who win
-//  getTheWinner with two arguments
+//  getTheRoundWinner with two arguments
 //  rock        wins against    scissors
 //  scissors    wins against    paper
 //  paper       wins against    rock
 //  return 0 if first argument win
 //  return 1 if seccond argument win
 //  return 2 if all is equal
+function getTheRoundWinner(firstSimbol, seccondSimbol){
+    if(firstSimbol===seccondSimbol)
+        return 2;
+    if((firstSimbol==="rock"&&seccondSimbol==="scissors")
+    ||(firstSimbol==="scissors"&&seccondSimbol==="paper")
+    ||(firstSimbol==="paper"&&seccondSimbol==="rock"))
+        return 0;
+    else
+        return 1;
+}
 
 //logic for a single round
 //  function playRound with arguments: humanChoice and computerChoice
