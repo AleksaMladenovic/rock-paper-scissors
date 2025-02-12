@@ -7,7 +7,7 @@
 //  return the value
 function getComputerChoice(){
     //random number between 0 and 2
-    randomNumber =Math.round( Math.random()*2);
+    randomNumber =Math.floor( Math.random()*3);
     if(randomNumber===0)
         return "rock";
     if(randomNumber===1)
