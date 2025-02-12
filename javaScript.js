@@ -88,7 +88,7 @@ function playRound(){//returns 0 if user win
             console.log("You and the computer had the same simbols!");
             break;
         case 0:
-            console.log("Congratulations!You win!");
+            console.log("Congratulations! You win!");
             break;
         case 1:
             console.log("Unfortunately, you lose!");
@@ -110,3 +110,37 @@ function playRound(){//returns 0 if user win
 //  if he want to play again clear console and call playGame
 //  if he dont want to play again just clear console!
 
+function playGame(){
+    let humanScore = 0;
+    let computerScore = 0;
+    let roundCounter = 1;
+
+    while(humanScore<3&&computerScore<3){
+        console.log(`Round: ${roundCounter}`);
+        let roundResult = playRound();
+        if(roundResult===0){
+            humanScore++;
+            roundCounter++;
+        } else if(roundResult === 1){
+            computerScore++;
+            roundCounter++;
+        }
+        console.log(`Result: You vs Computer ${humanScore}:${computerScore}`);
+    }
+    let endMessage; 
+    if(humanScore===3)//human wins
+        endMessage = `  Congradulations! 
+        You win whole game with score: ${humanScore}:${computerScore}
+        Do you want to play again?`;
+    else
+        endMessage = `  Unfortunately! 
+        You lose whole game with score: ${humanScore}:${computerScore}
+        Do you want to play again?`;
+    if(confirm(endMessage)){
+        console.clear();
+        playGame();
+    }
+    console.clear();
+}
+
+playGame();
