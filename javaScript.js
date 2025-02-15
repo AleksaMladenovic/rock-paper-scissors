@@ -29,10 +29,13 @@ function getTheRoundWinner(humanChoice, computerChoice) {
   else return "computer";
 }
 
-function playRound(humanChoice) {
-  //returns 0 if user win
-  //         1 if computer win
-  //         2 if they are equal
+function playRound(e) {
+  let humanChoice;
+  if (e.target.tagName == "IMG") {
+    humanChoice = e.target.id;
+  }else{
+    return;
+  }
 
   computerChoice = getComputerChoice();
   roundWinner = getTheRoundWinner(humanChoice, computerChoice);
@@ -48,13 +51,25 @@ function playRound(humanChoice) {
       console.log("Unfortunately, you lose!");
       break;
   }
-  representRound(humanChoice, computerChoice, roundWinner);
+  displayRound(humanChoice, computerChoice, roundWinner);
+  let gameEnd = humanScore>=3 || computerScore>=3;
+  if(gameEnd){
+    displayGameEnd();
+  }else{
+    btnNextRound.style.display = 'inline';
+  }
+
 }
 
-function representRound(humanChoice, computerChoice, roundWinner) {
-  const humanElement = document.querySelector("#" + humanChoice);
-  const computerElement = document.querySelector("#" + computerChoice);
+function displayRound(humanChoice, computerChoice, roundWinner) {
+  let humanElement = document.querySelector("#" + humanChoice);
+  let computerElement = document.querySelector("#" + computerChoice);
+  
   imagesForChoose.innerHTML = "";
+  if(humanElement===computerElement){
+    computerElement = humanElement.cloneNode();
+    computerElement.id = "same";
+  }
   imagesForChoose.appendChild(humanElement);
   imagesForChoose.appendChild(computerElement);
 
@@ -72,13 +87,24 @@ function representRound(humanChoice, computerChoice, roundWinner) {
       break;
   }
 
-  const humanScoreElement = document.querySelector(".user-score");
-  const computerScoreElement = document.querySelector(".computer-score");
+  
 
   humanScoreElement.textContent = humanScore;
   computerScoreElement.textContent = computerScore;
-}
 
+  
+}
+function displayGameEnd(){
+    btnNextRound.style.display = 'none';
+    if(humanScore>computerScore){
+        imagesForChoose.innerHTML = '<h1>Congratulations! You win!</h1>';
+        body.style.backgroundColor = 'green';
+    }else{
+        imagesForChoose.innerHTML = '<h1>Unfortunately, You lose!</h1>';
+        body.style.backgroundColor = 'red';
+    }
+
+}
 function playGame() {
   while (humanScore < 3 && computerScore < 3) {
     console.log(`Round: ${roundCounter}`);
@@ -110,30 +136,60 @@ function playGame() {
 }
 
 const btnStartGame = document.querySelector("#btnStartGame");
-let gameStarted = false;
-let roundStarted = false;
+const btnRestartGame = document.querySelector("#btnRestartGame");
+const btnNextRound = document.querySelector("#btnNextRound");
+btnRestartGame.style.display = 'none';
+btnNextRound.style.display = 'none';
+
 let humanScore = 0;
 let computerScore = 0;
-
 const imagesForChoose = document.querySelector("#images-for-choose");
 const rock = document.querySelector("#rock");
 const paper = document.querySelector("#paper");
 const scissors = document.querySelector("#scissors");
 const roundResultDiv = document.querySelector("#round-result");
+const humanScoreElement = document.querySelector(".user-score");
+const computerScoreElement = document.querySelector(".computer-score");
+const body = document.querySelector('body');
+
+
+restartAll()
+
 
 btnStartGame.addEventListener("click", () => {
-  if (!gameStarted) {
-    btnStartGame.textContent = "Restart game";
-    gameStarted = true;
-
-    imagesForChoose.addEventListener("click", (e) => {
-      if (e.target.tagName == "IMG") {
-        playRound(e.target.id);
-      }
-    });
-  } else {
-    btnStartGame.textContent = "Start game";
-    gameStarted = false;
-    imagesForChoose.removeEventListener("click");
-  }
+  
+    imagesForChoose.addEventListener("click",playRound);
+    btnRestartGame.style.display = 'inline';
+    btnStartGame.style.display = 'none';
 });
+
+btnRestartGame.addEventListener('click',()=>{
+    restartAll();
+    btnRestartGame.style.display = 'none';
+    btnNextRound.style.display = 'none';
+    btnStartGame.style.display = 'inline';
+
+})
+
+btnNextRound.addEventListener('click',()=>{
+    restartImages();
+    roundResultDiv.textContent = '';
+})
+
+function restartImages(){
+    imagesForChoose.innerHTML = '';
+    imagesForChoose.appendChild(rock);
+    imagesForChoose.appendChild(paper);
+    imagesForChoose.appendChild(scissors);
+}
+
+function restartAll(){
+    humanScore = 0;
+    computerScore = 0;
+    humanScoreElement.textContent = humanScore;
+    computerScoreElement.textContent = computerScore;
+    restartImages();
+    imagesForChoose.removeEventListener('click',playRound);
+    roundResultDiv.textContent = '';
+    body.style.backgroundColor = 'white';
+}
