@@ -1,146 +1,139 @@
-//getComputerChoice - randomly return "rock","paper" 
-//  or "scissors"
-//  get random num from 0 to 2 (0, 1 and 2)
-//  0 => rock
-//  1 => paper
-//  2 => scissors
-//  return the value
-function getComputerChoice(){
-    //random number between 0 and 2
-    randomNumber =Math.floor( Math.random()*3);
-    if(randomNumber===0)
-        return "rock";
-    if(randomNumber===1)
-        return "paper";
-    if(randomNumber===2)
-        return "scissors";    
+function getComputerChoice() {
+  //random number between 0 and 2
+  randomNumber = Math.floor(Math.random() * 3);
+  if (randomNumber === 0) return "rock";
+  if (randomNumber === 1) return "paper";
+  if (randomNumber === 2) return "scissors";
 }
 
-//getHumanChoice 
-//  from prompt user can type rock, paper or scissors
-//  userTyped => lowCaseUserTyped
-//  check if the lowCaseUserTyped is a correct value
-//  if it is => return that lowCaseUserTyped
-//  if not try again by calling function!
-
-function getHumanChoice(){
-    let humanChoice = prompt("Choose your simbol!\nRock, Paper or Scissors!");
-    if(humanChoice.toLowerCase()==="rock"
-        ||humanChoice.toLocaleLowerCase()==="paper"
-        ||humanChoice.toLocaleLowerCase()==="scissors")
-        return humanChoice.toLowerCase();
-    console.log("Spell right!");
-    return getHumanChoice();
+function getHumanChoice() {
+  let humanChoice = prompt("Choose your simbol!\nRock, Paper or Scissors!");
+  if (
+    humanChoice.toLowerCase() === "rock" ||
+    humanChoice.toLocaleLowerCase() === "paper" ||
+    humanChoice.toLocaleLowerCase() === "scissors"
+  )
+    return humanChoice.toLowerCase();
+  console.log("Spell right!");
+  return getHumanChoice();
 }
 
-//humanScore variable - for the humans wins 
-//  initialValue = 0
-//  it will icrease by the human winning
-
-//computerScore variable - for the computers wins
-// initial value = 0
-// it will increase by the computer winning
-
-//function for who win
-//  getTheRoundWinner with two arguments
-//  rock        wins against    scissors
-//  scissors    wins against    paper
-//  paper       wins against    rock
-//  return 0 if first argument win
-//  return 1 if seccond argument win
-//  return 2 if all is equal
-function getTheRoundWinner(firstSimbol, seccondSimbol){
-    if(firstSimbol===seccondSimbol)
-        return 2;
-    if((firstSimbol==="rock"&&seccondSimbol==="scissors")
-    ||(firstSimbol==="scissors"&&seccondSimbol==="paper")
-    ||(firstSimbol==="paper"&&seccondSimbol==="rock"))
-        return 0;
-    else
-        return 1;
+function getTheRoundWinner(humanChoice, computerChoice) {
+  if (humanChoice === computerChoice) return "even";
+  if (
+    (humanChoice === "rock" && computerChoice === "scissors") ||
+    (humanChoice === "scissors" && computerChoice === "paper") ||
+    (humanChoice === "paper" && computerChoice === "rock")
+  )
+    return "human";
+  else return "computer";
 }
 
-//logic for a single round
-//  function playRound with arguments
-//  call getHumanChoice
-//  call getComputerChoice 
-//  call getTheRoundWinner with humanChoice and computerChoice
-//  if return is 0
-//      then console.log You win!
-//      console.log humanChoice beats computerChoice
-//      return 0
-//  else if return is 1
-//      console.log You lose! 
-//      console.log computerChoice beats humanChoice
-//      return 1
-//  else
-//      console.log You and computer have same simbols
-//      return 2;
-function playRound(){//returns 0 if user win
-                    //         1 if computer win
-                    //         2 if they are equal
-    humanChoice = getHumanChoice();
-    computerChoice = getComputerChoice();
-    roundWinner = getTheRoundWinner(humanChoice,computerChoice);
-    console.log(`Your ${humanChoice} VS Computers ${computerChoice}`);
-    switch(roundWinner){
-        case 2:
-            console.log("You and the computer had the same simbols!");
-            break;
-        case 0:
-            console.log("Congratulations! You win!");
-            break;
-        case 1:
-            console.log("Unfortunately, you lose!");
-            break;
+function playRound(humanChoice) {
+  //returns 0 if user win
+  //         1 if computer win
+  //         2 if they are equal
+
+  computerChoice = getComputerChoice();
+  roundWinner = getTheRoundWinner(humanChoice, computerChoice);
+  console.log(`Your ${humanChoice} VS Computers ${computerChoice}`);
+  switch (roundWinner) {
+    case "even":
+      console.log("You and the computer had the same simbols!");
+      break;
+    case "human":
+      console.log("Congratulations! You win!");
+      break;
+    case "computer":
+      console.log("Unfortunately, you lose!");
+      break;
+  }
+  representRound(humanChoice, computerChoice, roundWinner);
+}
+
+function representRound(humanChoice, computerChoice, roundWinner) {
+  const humanElement = document.querySelector("#" + humanChoice);
+  const computerElement = document.querySelector("#" + computerChoice);
+  imagesForChoose.innerHTML = "";
+  imagesForChoose.appendChild(humanElement);
+  imagesForChoose.appendChild(computerElement);
+
+  switch (roundWinner) {
+    case "even":
+      roundResultDiv.textContent = "You and the computer had the same simbols!";
+      break;
+    case "human":
+      roundResultDiv.textContent = "Congratulations! You win round!";
+      humanScore++;
+      break;
+    case "computer":
+      roundResultDiv.textContent = "Unfortunately, you lose round!";
+      computerScore++;
+      break;
+  }
+
+  const humanScoreElement = document.querySelector(".user-score");
+  const computerScoreElement = document.querySelector(".computer-score");
+
+  humanScoreElement.textContent = humanScore;
+  computerScoreElement.textContent = computerScore;
+}
+
+function playGame() {
+  while (humanScore < 3 && computerScore < 3) {
+    console.log(`Round: ${roundCounter}`);
+    let roundResult = playRound();
+    if (roundResult === 0) {
+      humanScore++;
+      roundCounter++;
+    } else if (roundResult === 1) {
+      computerScore++;
+      roundCounter++;
     }
-    return roundWinner;
-}
-
-//logic for the entire game
-//  function called playGame
-//  inside this function will be declared variables
-//  humanScore and computerScore
-//  
-//  call the single round function 5 times or until
-//      any player reach the 3 wins
-//  console.log who wins!
-//  wait few secconds
-//  check if user wants to play again
-//  if he want to play again clear console and call playGame
-//  if he dont want to play again just clear console!
-
-function playGame(){
-    let humanScore = 0;
-    let computerScore = 0;
-    let roundCounter = 1;
-
-    while(humanScore<3&&computerScore<3){
-        console.log(`Round: ${roundCounter}`);
-        let roundResult = playRound();
-        if(roundResult===0){
-            humanScore++;
-            roundCounter++;
-        } else if(roundResult === 1){
-            computerScore++;
-            roundCounter++;
-        }
-        console.log(`Result: You vs Computer ${humanScore}:${computerScore}`);
-    }
-    let endMessage; 
-    if(humanScore===3)//human wins
-        endMessage = `  Congradulations! 
+    console.log(`Result: You vs Computer ${humanScore}:${computerScore}`);
+  }
+  let endMessage;
+  if (humanScore === 3)
+    //human wins
+    endMessage = `  Congradulations! 
         You win whole game with score: ${humanScore}:${computerScore}
         Do you want to play again?`;
-    else
-        endMessage = `  Unfortunately! 
+  else
+    endMessage = `  Unfortunately! 
         You lose whole game with score: ${humanScore}:${computerScore}
         Do you want to play again?`;
-    if(confirm(endMessage)){
-        console.clear();
-        playGame();
-    }
+  if (confirm(endMessage)) {
     console.clear();
+    playGame();
+  }
+  console.clear();
 }
 
-playGame();
+const btnStartGame = document.querySelector("#btnStartGame");
+let gameStarted = false;
+let roundStarted = false;
+let humanScore = 0;
+let computerScore = 0;
+
+const imagesForChoose = document.querySelector("#images-for-choose");
+const rock = document.querySelector("#rock");
+const paper = document.querySelector("#paper");
+const scissors = document.querySelector("#scissors");
+const roundResultDiv = document.querySelector("#round-result");
+
+btnStartGame.addEventListener("click", () => {
+  if (!gameStarted) {
+    btnStartGame.textContent = "Restart game";
+    gameStarted = true;
+
+    imagesForChoose.addEventListener("click", (e) => {
+      if (e.target.tagName == "IMG") {
+        playRound(e.target.id);
+      }
+    });
+  } else {
+    btnStartGame.textContent = "Start game";
+    gameStarted = false;
+    imagesForChoose.removeEventListener("click");
+  }
+});

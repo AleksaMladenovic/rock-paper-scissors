@@ -1,12 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Rock Paper Scissors</title>
-    <script src="javaScript.js"></script>
-</head>
-<body>
-    
-</body>
+    <script defer src="javaScript.js"></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="body">
+      <div id="score-wrap">
+        <div id="score-title">
+          <h1>SCORE</h1>
+        </div>
+        <div id="score">
+          <div class="user">
+            <p>User</p>
+            <p class="user-score"></p>
+          </div>
+          <div class="computer">
+            <p>Computer</p>
+            <p class="computer-score"></p>
+          </div>
+        </div>
+      </div>
+      <div id="images-for-choose">
+        <img src="images/rock.png" alt="image of rock " id="rock" />
+        <img src="images/paper.png" alt="image of paper" id="paper" />
+        <img src="images/scissors.png" alt="image of scissors" id="scissors" />
+      </div>
+      <div id="round-result"></div>
+      <div id="buttons">
+        <button id="btnStartGame">Start game</button>
+      </div>
+    </div>
+  </body>
 </html>

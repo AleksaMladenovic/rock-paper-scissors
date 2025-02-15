@@ -1,0 +1,12 @@
+#images-for-choose{
+    display: flex;
+
+}
+img{
+    border: 2px solid black;
+    border-radius: 50%;
+}
+#score{
+    display: flex;
+    justify-content: space-between;
+}
