@@ -47,9 +47,9 @@ function setBacColor(simbol) {
 }
 
 function playRound(e) {
-  imagesForChoose.removeEventListener("click", playRound);
   let humanChoice;
   if (e.target.tagName == "IMG") {
+    imagesForChoose.removeEventListener("click", playRound);
     humanChoice = e.target.id;
   } else {
     return;
@@ -81,19 +81,19 @@ function displayRound(humanChoice, computerChoice, roundWinner) {
   switch (roundWinner) {
     case "even":
       roundResultDiv.textContent = "You and the computer had the same simbols!";
-      roundResultDiv.style.backgroundColor = 'white';
-      roundResultDiv.classList.add('paddingResult');
+      roundResultDiv.style.backgroundColor = "white";
+      roundResultDiv.classList.add("paddingResult");
       break;
     case "human":
       roundResultDiv.textContent = "Congratulations! You win round!";
-      roundResultDiv.style.backgroundColor = 'green';
-      roundResultDiv.classList.add('paddingResult');
+      roundResultDiv.style.backgroundColor = "green";
+      roundResultDiv.classList.add("paddingResult");
       humanScore++;
       break;
     case "computer":
       roundResultDiv.textContent = "Unfortunately, you lose round!";
-      roundResultDiv.style.backgroundColor = 'red';
-      roundResultDiv.classList.add('paddingResult');
+      roundResultDiv.style.backgroundColor = "red";
+      roundResultDiv.classList.add("paddingResult");
       computerScore++;
       break;
   }
@@ -111,10 +111,9 @@ function displayGameEnd() {
     text = "Unfortunately, You lose!";
     body.style.backgroundColor = "red";
   }
-  imagesForChoose.innerHTML = '';
+  imagesForChoose.innerHTML = "";
   roundResultDiv.textContent = text;
-  roundResultDiv.classList.add('end-text');
-
+  roundResultDiv.classList.add("end-text");
 }
 
 const btnStartGame = document.querySelector("#btnStartGame");
@@ -150,7 +149,7 @@ btnRestartGame.addEventListener("click", () => {
 });
 
 btnNextRound.addEventListener("click", () => {
-  btnNextRound.style.display='none';
+  btnNextRound.style.display = "none";
   restartImages();
   imagesForChoose.addEventListener("click", playRound);
   body.style.backgroundColor = "white";
@@ -162,8 +161,8 @@ function restartImages() {
   imagesForChoose.appendChild(rock);
   imagesForChoose.appendChild(paper);
   imagesForChoose.appendChild(scissors);
-  roundResultDiv.classList.remove('paddingResult');
-  roundResultDiv.classList.remove('end-text');
+  roundResultDiv.classList.remove("paddingResult");
+  roundResultDiv.classList.remove("end-text");
 }
 
 function restartAll() {
