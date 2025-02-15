@@ -6,17 +6,6 @@ function getComputerChoice() {
   if (randomNumber === 2) return "scissors";
 }
 
-function getHumanChoice() {
-  let humanChoice = prompt("Choose your simbol!\nRock, Paper or Scissors!");
-  if (
-    humanChoice.toLowerCase() === "rock" ||
-    humanChoice.toLocaleLowerCase() === "paper" ||
-    humanChoice.toLocaleLowerCase() === "scissors"
-  )
-    return humanChoice.toLowerCase();
-  console.log("Spell right!");
-  return getHumanChoice();
-}
 
 function getTheRoundWinner(humanChoice, computerChoice) {
   if (humanChoice === computerChoice) {
