@@ -100,7 +100,7 @@ function displayGameEnd() {
     text = "Unfortunately, You lose!";
     body.style.backgroundColor = "red";
   }
-  imagesForChoose.innerHTML = "";
+//   imagesForChoose.innerHTML = "";
   roundResultDiv.textContent = text;
   roundResultDiv.classList.add("end-text");
 }
