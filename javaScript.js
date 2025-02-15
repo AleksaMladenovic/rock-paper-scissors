@@ -57,18 +57,6 @@ function playRound(e) {
 
   computerChoice = getComputerChoice();
   roundWinner = getTheRoundWinner(humanChoice, computerChoice);
-  console.log(`Your ${humanChoice} VS Computers ${computerChoice}`);
-  switch (roundWinner) {
-    case "even":
-      console.log("You and the computer had the same simbols!");
-      break;
-    case "human":
-      console.log("Congratulations! You win!");
-      break;
-    case "computer":
-      console.log("Unfortunately, you lose!");
-      break;
-  }
   displayRound(humanChoice, computerChoice, roundWinner);
   let gameEnd = humanScore >= 3 || computerScore >= 3;
   if (gameEnd) {
@@ -93,13 +81,19 @@ function displayRound(humanChoice, computerChoice, roundWinner) {
   switch (roundWinner) {
     case "even":
       roundResultDiv.textContent = "You and the computer had the same simbols!";
+      roundResultDiv.style.backgroundColor = 'white';
+      roundResultDiv.classList.add('paddingResult');
       break;
     case "human":
       roundResultDiv.textContent = "Congratulations! You win round!";
+      roundResultDiv.style.backgroundColor = 'green';
+      roundResultDiv.classList.add('paddingResult');
       humanScore++;
       break;
     case "computer":
       roundResultDiv.textContent = "Unfortunately, you lose round!";
+      roundResultDiv.style.backgroundColor = 'red';
+      roundResultDiv.classList.add('paddingResult');
       computerScore++;
       break;
   }
@@ -109,13 +103,18 @@ function displayRound(humanChoice, computerChoice, roundWinner) {
 }
 function displayGameEnd() {
   btnNextRound.style.display = "none";
+  let text;
   if (humanScore > computerScore) {
-    imagesForChoose.innerHTML = "<h1>Congratulations! You win!</h1>";
+    text = "Congratulations! You win!";
     body.style.backgroundColor = "green";
   } else {
-    imagesForChoose.innerHTML = "<h1>Unfortunately, You lose!</h1>";
+    text = "Unfortunately, You lose!";
     body.style.backgroundColor = "red";
   }
+  imagesForChoose.innerHTML = '';
+  roundResultDiv.textContent = text;
+  roundResultDiv.classList.add('end-text');
+
 }
 
 const btnStartGame = document.querySelector("#btnStartGame");
@@ -151,6 +150,7 @@ btnRestartGame.addEventListener("click", () => {
 });
 
 btnNextRound.addEventListener("click", () => {
+  btnNextRound.style.display='none';
   restartImages();
   imagesForChoose.addEventListener("click", playRound);
   body.style.backgroundColor = "white";
@@ -162,6 +162,8 @@ function restartImages() {
   imagesForChoose.appendChild(rock);
   imagesForChoose.appendChild(paper);
   imagesForChoose.appendChild(scissors);
+  roundResultDiv.classList.remove('paddingResult');
+  roundResultDiv.classList.remove('end-text');
 }
 
 function restartAll() {
